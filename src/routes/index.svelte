@@ -35,6 +35,7 @@
 <script>
 
 	import Button from "../components/UI/Button.svelte";
+	// Importing Identity this way should mean we don't need to pull it in through the HTML
 	import netlifyIdentity from "netlify-identity-widget"
 	//import { user } from '../store.js'
 
@@ -42,7 +43,11 @@
 	import { onMount } from 'svelte';
 
 	netlifyIdentity.init();
-	console.log('Current user is: ', netlifyIdentity.currentUser())
+	netlifyIdentity.on('init', cUser => console.log('on init1: ', cUser));
+	
+	console.log('.currentUser user is: ', netlifyIdentity.currentUser())
+	const cUser = netlifyIdentity.currentUser();
+	console.log('const cUser: ', cUser)
 
 	// Put a test user in a store to make sure UI works. Then set it from functions.
 	
@@ -57,6 +62,8 @@
     if (action == 'login' || action == 'signup') {
 	  console.log('logging in')
 	  netlifyIdentity.open(action)
+	  netlifyIdentity.on('init', cUser => console.log('on init2: ', cUser));
+	  netlifyIdentity.on('login', cUser => console.log('on login: ', cUser));
     } else if (action == 'logout') {
 	  console.log('logging out')
 	  netlifyIdentity.logout()
