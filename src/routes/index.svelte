@@ -33,19 +33,57 @@
 </style>
 
 <script>
+
+	import Button from "../components/UI/Button.svelte";
+	import netlifyIdentity from "netlify-identity-widget"
+	//import { user } from '../store.js'
+
 	import { onMount } from 'svelte';
 
-	onMount(() => {
-    console.log('Functions are coming...');
+	netlifyIdentity.init();
+	console.log('Current user is: ', netlifyIdentity.currentUser())
+
+	// Put a test user in a store to make sure UI works. Then set it from functions.
+	
+	// !! converts user to boolean value, so isLoggedIn will give us true or false.
+	$: isLoggedIn = !!netlifyIdentity.currentUser()
+
+	// $: reactive. $ to access user store. !== if not null, get username value from store,
+	// and set it to name. Otherwise just set it to generic 'user'
+	$: name = netlifyIdentity.currentUser() !== null ? netlifyIdentity.currentUser() : ' user!'
+
+	function handleUserAction(action) {
+    if (action == 'login' || action == 'signup') {
+	  console.log('logging in')
+	  netlifyIdentity.open('login')
+    } else if (action == 'logout') {
+	  console.log('logging out')
+	  netlifyIdentity.logout()
+    }
+  }
+	
+	// onMount(() => {
     
-    fetch("/.netlify/functions/hello")
-      .then(response => response.json())
-      .then(json => console.log(json))
-	});
+    
+    // fetch("/.netlify/functions/hello")
+    //   .then(response => response.json())
+    //   .then(json => console.log(json))
+	// });
+
+	function lambdaTest() {
+		console.log('Functions are coming...');
+		
+		fetch("/.netlify/functions/hello")
+      		.then(response => response.json())
+      		.then(json => console.log(json))
+  
+ }
+
 </script>
 
 <svelte:head>
-	<title>Sapper netflify jamstack template</title>
+	<title>Sojourn</title>
+	<script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </svelte:head>
 
 <h1>Great success!</h1>
@@ -55,4 +93,25 @@
 	<figcaption>HIGH FIVE!</figcaption>
 </figure>
 
-<p><strong>Try editing this file (src/routes/index.svelte) to test live reloading. Netlify is ready to go.</strong></p>
+<p>
+<Button on:click={lambdaTest}>Login Function Test</Button>
+</p>
+
+{#if isLoggedIn}
+    <div>
+      <p>Hello {name}</p>
+      <div>
+        <Button on:click={() => handleUserAction('logout')}>Log Out</Button>
+      </div>
+    </div>
+  {:else}
+    <div>
+      <p>You are not logged in.</p>
+      <div>
+        <Button on:click={() => handleUserAction('login')}>Log In</Button>
+        <Button on:click={() => handleUserAction('signup')}>Sign Up</Button>
+      </div>
+    </div>
+{/if}
+
+

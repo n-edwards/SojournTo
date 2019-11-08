@@ -1,3 +1,5 @@
+Need to figure out how to clear cache after login. With this project, and with Netlify Svelte login demo (https://github.com/babycourageous/netlify-identity-demo-svelte), noticing that old (cached?) version of page loads after login. May have seen a solution to this in Svelte SSR auth video, using Chrome Dev Tools to scrub along loading timeline, and set correct view somehow.
+
 # sapper-netlify-jamstack-template
 
 The default [Sapper](https://github.com/sveltejs/sapper) template, with webpack and configured to deploy to netlify. To get started:
