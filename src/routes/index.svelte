@@ -56,7 +56,7 @@
 	function handleUserAction(action) {
     if (action == 'login' || action == 'signup') {
 	  console.log('logging in')
-	  netlifyIdentity.open('login')
+	  netlifyIdentity.open(action)
     } else if (action == 'logout') {
 	  console.log('logging out')
 	  netlifyIdentity.logout()
@@ -88,7 +88,7 @@
 
 <svelte:head>
 	<title>Sojourn</title>
-	<script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+	
 </svelte:head>
 
 <h1>Great success!</h1>
