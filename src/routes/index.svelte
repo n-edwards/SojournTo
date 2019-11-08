@@ -43,12 +43,14 @@
 	import { onMount } from 'svelte';
 
 	netlifyIdentity.init();
-	netlifyIdentity.on('init', cUser => console.log('on init1: ', cUser));
 	
-	console.log('.currentUser user is: ', netlifyIdentity.currentUser())
+	console.log('.currentUser user is: ', netlifyIdentity.currentUser()) // null
 	const cUser = netlifyIdentity.currentUser();
-	console.log('const cUser: ', cUser)
+	console.log('const cUser: ', cUser) // null
 
+	netlifyIdentity.on('init', cUser => console.log('on init2: ', cUser));
+	netlifyIdentity.on('login', cUser => console.log('on login: ', cUser));
+	
 	// Put a test user in a store to make sure UI works. Then set it from functions.
 	
 	// !! converts user to boolean value, so isLoggedIn will give us true or false.
@@ -62,8 +64,7 @@
     if (action == 'login' || action == 'signup') {
 	  console.log('logging in')
 	  netlifyIdentity.open(action)
-	  netlifyIdentity.on('init', cUser => console.log('on init2: ', cUser));
-	  netlifyIdentity.on('login', cUser => console.log('on login: ', cUser));
+	  
     } else if (action == 'logout') {
 	  console.log('logging out')
 	  netlifyIdentity.logout()
