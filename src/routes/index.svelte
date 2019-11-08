@@ -38,7 +38,7 @@
 	import netlifyIdentity from "netlify-identity-widget"
 	//import { user } from '../store.js'
 
-	import { goto } from '@sapper/app'
+	import * as sapper from '@sapper/app';
 	import { onMount } from 'svelte';
 
 	netlifyIdentity.init();
@@ -60,7 +60,9 @@
     } else if (action == 'logout') {
 	  console.log('logging out')
 	  netlifyIdentity.logout()
-	  sapper.goto('/blog')
+	  sapper.goto('/')
+	  
+	  
     }
   }
 	
@@ -75,10 +77,11 @@
 	function lambdaTest() {
 		console.log('Functions are coming...');
 		
+		
 		fetch("/.netlify/functions/hello")
       		.then(response => response.json())
       		.then(json => console.log(json))
-  
+
  }
 
 </script>
