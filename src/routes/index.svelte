@@ -38,6 +38,7 @@
 	import netlifyIdentity from "netlify-identity-widget"
 	//import { user } from '../store.js'
 
+	import { goto } from '@sapper/app'
 	import { onMount } from 'svelte';
 
 	netlifyIdentity.init();
@@ -59,6 +60,7 @@
     } else if (action == 'logout') {
 	  console.log('logging out')
 	  netlifyIdentity.logout()
+	  sapper.goto('/blog')
     }
   }
 	
