@@ -48,17 +48,16 @@
 	const cUser = netlifyIdentity.currentUser();
 	console.log('const cUser: ', cUser) // null
 
-	netlifyIdentity.on('init', cUser => console.log('on init2: ', cUser));
 	netlifyIdentity.on('login', cUser => console.log('on login: ', cUser));
 	
 	// Put a test user in a store to make sure UI works. Then set it from functions.
 	
 	// !! converts user to boolean value, so isLoggedIn will give us true or false.
-	$: isLoggedIn = !!netlifyIdentity.currentUser()
+	$: isLoggedIn = !!cUser
 
 	// $: reactive. $ to access user store. !== if not null, get username value from store,
 	// and set it to name. Otherwise just set it to generic 'user'
-	$: name = netlifyIdentity.currentUser() !== null ? netlifyIdentity.currentUser() : ' user!'
+	$: name = cUser !== null ? cUser : ' user!'
 
 	function handleUserAction(action) {
     if (action == 'login' || action == 'signup') {
