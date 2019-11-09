@@ -66,7 +66,9 @@
 	  
     } else if (action == 'logout') {
 	  console.log('logging out')
-	  netlifyIdentity.logout()
+	  console.log('cUser boolean status: ', !!cUser)
+	  cUser.logout()
+	  console.log('cUser boolean status: ', !!cUser)
 	  sapper.goto('/')
 	  
 	  
